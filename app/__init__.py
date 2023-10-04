@@ -11,11 +11,9 @@ session = Session()
 
 
 def create_app():
-    from app.models import Location, User
+    from app.models import users_subscriptions
 
-    select_statement = select([column("user_id"), column("location_id")]).select_from(
-        "users_subscriptions"
-    )
+    select_statement = select(users_subscriptions)
 
     results = session.execute(select_statement).fetchall()
 

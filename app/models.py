@@ -40,10 +40,3 @@ class Location(Base):
 
     def __str__(self):
         return self.name_he
-
-
-# * add all cities to DB:
-# for location in cities:
-#     new_location = Location(name_he=location["name_he"], name_en=location["name_en"])
-#     session.add(new_location)
-# db.session.commit()
