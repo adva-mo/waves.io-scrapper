@@ -1,11 +1,26 @@
 import os
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, select, column
+from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
 db_url = os.environ.get("SQLALCHEMY_DATABASE_URI")
+engine = create_engine(db_url)
+Session = sessionmaker(bind=engine)
+session = Session()
 
 
 def create_app():
-    engine = create_engine(db_url)
-    print("app created")
+    from app.models import Location, User
+
+    select_statement = select([column("user_id"), column("location_id")]).select_from(
+        "users_subscriptions"
+    )
+
+    results = session.execute(select_statement).fetchall()
+
+    for result in results:
+        user_id, location_id = result
+        print(f"User ID: {user_id}, Location ID: {location_id}")
+
+    session.close()
